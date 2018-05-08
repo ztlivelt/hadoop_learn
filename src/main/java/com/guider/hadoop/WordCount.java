@@ -1,6 +1,7 @@
 package com.guider.hadoop;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
@@ -10,10 +11,14 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.util.Tool;
+import org.apache.hadoop.util.ToolRunner;
 
 import java.io.IOException;
 
-public class WordCount {
+public class WordCount extends Configured implements Tool {
+    // input -> map -> shuffle -> output
+    // mapper，输入数据变成键值对，一行转化为一条
     //1. Map claaa
     public static class WordCountMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
         private Text mapOutputKey = new Text();
@@ -38,6 +43,7 @@ public class WordCount {
     }
 
     //2. Reduce class
+    //reducer，map的输出就是reduce的输入
     public static class WordCountReduce extends Reducer<Text, IntWritable, Text, IntWritable> {
         private IntWritable outputValue = new IntWritable();
         @Override
@@ -56,6 +62,7 @@ public class WordCount {
     public int run(String[] args) throws Exception {
         //获取我们的配置
         Configuration conf = new Configuration();
+        //Configuration conf = this.getConf();
 
         Job job = Job.getInstance(conf, this.getClass().getSimpleName());
         //设置input与output
@@ -64,20 +71,30 @@ public class WordCount {
         Path outpath = new Path(args[1]);
         FileOutputFormat.setOutputPath(job, outpath);
 
-        //设置map与reduce
+        //设置map与
         //需要设置的内容类 + 输出key与value
         job.setMapperClass(WordCountMapper.class);
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(IntWritable.class);
+
+        //shuffle优化
+//        job.setPartitionerClass(cls);
+//        job.setSortComparatorClass(cls);
+//        job.setCombinerClass(cls);
+//        job.setGroupingComparatorClass(cls);
+
+        //设置reduce
         job.setReducerClass(WordCountReduce.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
 
+        //将job交给Yarn
         boolean issucess = job.waitForCompletion(true);
         return issucess ? 0 : 1;
     }
 
     public static void main(String[] args) throws Exception {
+        Configuration conf = new Configuration();
         //参数
         args = new String[] {
                 "hdfs://bigguider22.com:8020/user/root/mapreduce/input",
@@ -85,6 +102,7 @@ public class WordCount {
         };
         //跑我们的任务
         int status = new WordCount().run(args);
+        //int status = ToolRunner.run(conf,new WordCount(),args);
         System.exit(status);
     }
 }
