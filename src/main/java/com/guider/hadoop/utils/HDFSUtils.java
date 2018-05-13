@@ -1,4 +1,4 @@
-package com.guider.hadoop;
+package com.guider.hadoop.utils;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
@@ -139,7 +139,7 @@ public class HDFSUtils {
         //返回FileSystem对象
         FileSystem fs = getFileSystem();
         //删除文件或者文件目录 delete(Path f)此方法已经弃用
-        boolean is_delete = fs.delete(new Path(path), true);
+        boolean is_delete = fs.deleteOnExit(new Path(path));
         fs.close();
 
     }
@@ -163,6 +163,20 @@ public class HDFSUtils {
      * 主方法测试
      */
     public static void main(String[] args) throws Exception {         //连接fs
+        HDFSUtils.rmdir("/user/root/global/output");
+        HDFSUtils.rmdir("/user/root/global/output1");
+        HDFSUtils.rmdir("/user/root/global/output2");
+        HDFSUtils.rmdir("/user/root/mapreduce/output");
+        HDFSUtils.rmdir("/user/root/mapreduce/output1");
+        HDFSUtils.rmdir("/user/root/mapreduce/output2");
+        HDFSUtils.rmdir("/user/root/mapreduce/output3");
+        HDFSUtils.rmdir("/user/root/mapreduce/output4");
+        HDFSUtils.rmdir("/user/root/sort/output");
+        HDFSUtils.rmdir("/user/root/sort/output1");
+        HDFSUtils.rmdir("/user/root/sort/output2");
+        HDFSUtils.rmdir("/user/root/sort/output3");
+        HDFSUtils.rmdir("/user/root/sort/output4");
+        System.exit(1);
 //        FileSystem fs = getFileSystem();
 //        System.out.println(fs.getUsed());
 //        fs.copyToLocalFile(new Path("/user/root/mapreduce/output"),
