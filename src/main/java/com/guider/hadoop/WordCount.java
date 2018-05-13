@@ -98,7 +98,7 @@ public class WordCount extends Configured implements Tool {
         //参数
         args = new String[] {
                 "hdfs://bigguider22.com:8020/user/root/mapreduce/input",
-                "hdfs://bigguider22.com:8020/user/root/mapreduce/output1"
+                "hdfs://bigguider22.com:8020/user/root/mapreduce/output4"
         };
         //跑我们的任务
         int status = new WordCount().run(args);
