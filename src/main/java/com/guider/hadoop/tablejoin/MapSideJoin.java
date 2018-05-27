@@ -97,7 +97,7 @@ public class MapSideJoin extends Configured implements Tool {
         Path outpath = new Path(args[1]);
         FileOutputFormat.setOutputPath(job, outpath);
 
-        job.addCacheFile(URI.create(CUSTOMER_LIST));
+//        job.addCacheFile(URI.create(CUSTOMER_LIST));
         //设置map与
         //需要设置的内容类 + 输出key与value
         job.setMapperClass(MsjMapper.class);
