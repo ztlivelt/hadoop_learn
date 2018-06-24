@@ -52,6 +52,17 @@
             <artifactId>hive-jdbc</artifactId>
             <version>1.2.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-server</artifactId>
+            <version>0.98.6-hadoop2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-client</artifactId>
+            <version>0.98.6-hadoop2</version>
+        </dependency>
     </dependencies>
 
     <!--构建插件配置，自动生成，不用管-->
