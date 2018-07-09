@@ -27,7 +27,7 @@
 </property>
 <property>
   <name>hbase.rootdir</name>
-  <value>hdfs://bigguider22.com:8020/hbase</value>
+  <value>hdfs://ns/hbase</value>
 </property>
 <property>
   <name>hbase.cluster.distributed</name>
@@ -35,6 +35,6 @@
 </property>
 <property>
   <name>hbase.zookeeper.quorum</name>
-  <value>bigguider22.com</value>
+  <value>bigguider22.com,bigguider23.com,bigguider24.com</value>
 </property>
 </configuration>
